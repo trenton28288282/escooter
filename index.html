@@ -33,6 +33,23 @@
             </div>
 
             <div class="step" id="step-3">
+    <h2>Do you need suspension for bumpy roads?</h2>
+    <div class="options">
+        <button onclick="nextStep(3, 'yes')">Yes (Comfort is priority)</button>
+        <button onclick="nextStep(3, 'no')">No (Smooth pavement only)</button>
+    </div>
+</div>
+
+<div class="step" id="step-4">
+    <h2>Is portability important?</h2>
+    <div class="options">
+        <button onclick="calculateResult('yes')">Yes, I need to carry it</button>
+        <button onclick="calculateResult('no')">No, performance matters more</button>
+    </div>
+</div>
+
+
+            <div class="step" id="step-3">
                 <h2>Is portability (folding/weight) important?</h2>
                 <div class="options">
                     <button onclick="calculateResult('yes')">Yes, I need to carry it</button>
