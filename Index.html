@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScooterMatch | Find Your Ride</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ScooterMatch</h1>
+            <p>Answer 3 quick questions to find your perfect e-scooter.</p>
+        </header>
+
+        <main id="quiz-container">
+            <div class="step active" id="step-1">
+                <h2>What is your primary use?</h2>
+                <div class="options">
+                    <button onclick="nextStep(1, 'commute')">Short City Commute</button>
+                    <button onclick="nextStep(1, 'long')">Long Distance / Touring</button>
+                    <button onclick="nextStep(1, 'fun')">Off-Road / Weekend Fun</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-2">
+                <h2>What is your budget?</h2>
+                <div class="options">
+                    <button onclick="nextStep(2, 'budget')">Under $500</button>
+                    <button onclick="nextStep(2, 'mid')">$500 - $1,200</button>
+                    <button onclick="nextStep(2, 'pro')">$1,200+</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-3">
+                <h2>Is portability (folding/weight) important?</h2>
+                <div class="options">
+                    <button onclick="calculateResult('yes')">Yes, I need to carry it</button>
+                    <button onclick="calculateResult('no')">No, performance matters more</button>
+                </div>
+            </div>
+
+            <div class="step" id="result-step">
+                <h2>Your Perfect Match:</h2>
+                <div id="scooter-result">
+                    </div>
+                <button onclick="location.reload()" class="restart-btn">Start Over</button>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
