@@ -1,20 +1,26 @@
-// Database of potential scooters
 const scooters = [
-    { name: "Segway Ninebot Max G2", type: "commute", budget: "mid", portable: "no", desc: "The king of reliability and range." },
-    { name: "Unagi Model One Voyager", type: "commute", budget: "pro", portable: "yes", desc: "Ultra-lightweight and stylish." },
-    { name: "Gotrax GXL V2", type: "commute", budget: "budget", portable: "yes", desc: "The best entry-level budget scooter." },
-    { name: "Nami Burn-E 2", type: "fun", budget: "pro", portable: "no", desc: "A beastly off-road machine." },
-    { name: "EMOVE Cruiser S", type: "long", budget: "mid", portable: "no", desc: "Massive range for long commutes." }
+    // SEGWAY NINEBOT LINEUP
+    { name: "Segway Ninebot Max G2", type: "commute", budget: "mid", suspension: "yes", portable: "no", desc: "The ultimate commuter with hydraulic front and spring rear suspension." },
+    { name: "Segway Ninebot F2 Pro", type: "commute", budget: "mid", suspension: "yes", portable: "yes", desc: "A lighter commuter with front suspension and turn signals." },
+    { name: "Segway Ninebot E2 Plus", type: "commute", budget: "budget", suspension: "no", portable: "yes", desc: "Simple, reliable, and very affordable for short trips." },
+    
+    // KUKIRIN LINEUP
+    { name: "KuKirin G2 Master", type: "fun", budget: "pro", suspension: "yes", portable: "no", desc: "Dual motor power with high-quality dual suspension for off-roading." },
+    { name: "KuKirin G2 Max", type: "long", budget: "mid", suspension: "yes", portable: "no", desc: "Great range and power with a seat option and solid suspension." },
+    { name: "KuKirin S3 Pro", type: "commute", budget: "budget", suspension: "yes", portable: "yes", desc: "The rare budget scooter that includes basic suspension." },
+
+    // OTHER COMPARISONS
+    { name: "Nami Burn-E 2", type: "fun", budget: "pro", suspension: "yes", portable: "no", desc: "Hyper-scooter with adjustable hydraulic suspension." },
+    { name: "Unagi Model One", type: "commute", budget: "pro", suspension: "no", portable: "yes", desc: "The lightest high-end scooter, but no suspension." }
 ];
 
 let userPreferences = {};
 
 function nextStep(currentStep, value) {
-    // Store user choice
     if (currentStep === 1) userPreferences.type = value;
     if (currentStep === 2) userPreferences.budget = value;
+    if (currentStep === 3) userPreferences.suspension = value;
 
-    // UI Transition
     document.getElementById(`step-${currentStep}`).classList.remove('active');
     document.getElementById(`step-${currentStep + 1}`).classList.add('active');
 }
@@ -22,17 +28,19 @@ function nextStep(currentStep, value) {
 function calculateResult(isPortable) {
     userPreferences.portable = isPortable;
     
-    document.getElementById('step-3').classList.remove('active');
+    document.getElementById('step-4').classList.remove('active');
     document.getElementById('result-step').classList.add('active');
 
-    // Simple matching algorithm: Find the scooter with the most matching tags
-    let bestMatch = scooters[0];
+    let bestMatch = null;
     let highestScore = -1;
 
     scooters.forEach(scooter => {
         let score = 0;
-        if (scooter.type === userPreferences.type) score += 3;
-        if (scooter.budget === userPreferences.budget) score += 2;
+        
+        // Match Weighting
+        if (scooter.type === userPreferences.type) score += 4;       // Primary use is most important
+        if (scooter.budget === userPreferences.budget) score += 3;   // Budget is second
+        if (scooter.suspension === userPreferences.suspension) score += 2; 
         if (scooter.portable === userPreferences.portable) score += 1;
 
         if (score > highestScore) {
@@ -41,11 +49,15 @@ function calculateResult(isPortable) {
         }
     });
 
-    // Display result
     const resultDiv = document.getElementById('scooter-result');
     resultDiv.innerHTML = `
-        <h3>${bestMatch.name}</h3>
-        <p>${bestMatch.desc}</p>
-        <p><strong>Perfect for:</strong> ${bestMatch.type} use on a ${bestMatch.budget} budget.</p>
+        <div class="result-card">
+            <h3>${bestMatch.name}</h3>
+            <p>${bestMatch.desc}</p>
+            <div class="specs">
+                <span><strong>Suspension:</strong> ${bestMatch.suspension.toUpperCase()}</span> | 
+                <span><strong>Budget:</strong> ${bestMatch.budget.toUpperCase()}</span>
+            </div>
+        </div>
     `;
 }
